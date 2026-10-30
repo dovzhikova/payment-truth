@@ -1,0 +1,7 @@
+{
+  "name": "payment-truth-external-evershop",
+  "private": true,
+  "type": "module",
+  "description": "Runs evershop's real PayPal code (fetched at a pinned commit, GPL-3.0, not committed) under Payment Truth's scenarios.",
+  "dependencies": { "@evershop/postgres-query-builder": "2.1.1", "pg": "8.16.3" }
+}

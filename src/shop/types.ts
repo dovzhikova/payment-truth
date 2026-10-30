@@ -13,4 +13,6 @@ export interface ShopHandlers {
   complete(paypalOrderId: string): Promise<OrderStatus>;
   // Webhook endpoint; returns the HTTP status the shop answers with.
   onWebhook(delivery: SignedDelivery): Promise<number>;
+  // Shops with their own database report what they recorded; otherwise the harness reads Store.
+  snapshot?(): Promise<{ orders: ShopOrder[]; grants: Grant[] }>;
 }

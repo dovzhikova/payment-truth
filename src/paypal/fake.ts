@@ -76,7 +76,7 @@ export class FakePayPal implements PayPalApi {
     const o = this.orders.get(orderId);
     if (!o) throw new PayPalError('RESOURCE_NOT_FOUND');
     o.status = 'APPROVED';
-    this.emit({ id: this.nextId('WH'), event_type: 'CHECKOUT.ORDER.APPROVED', resource: { order_id: o.id } });
+    this.emit({ id: this.nextId('WH'), event_type: 'CHECKOUT.ORDER.APPROVED', resource: { order_id: o.id, id: o.id, status: 'APPROVED' } });
   }
 
   async captureOrder(id: string, requestId: string): Promise<PayPalOrder> {
@@ -94,7 +94,10 @@ export class FakePayPal implements PayPalApi {
     this.emit({
       id: this.nextId('WH'),
       event_type: 'PAYMENT.CAPTURE.COMPLETED',
-      resource: { order_id: o.id, capture_id: capture.id },
+      resource: {
+        order_id: o.id, capture_id: capture.id, id: capture.id, status: 'COMPLETED',
+        amount: { value: '1.00', currency_code: 'USD' }, supplementary_data: { related_ids: { order_id: o.id } },
+      },
     });
     return this.copy(o);
   }

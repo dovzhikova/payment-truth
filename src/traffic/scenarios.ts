@@ -13,7 +13,7 @@ import { HeldNetwork } from './network.ts';
 import { withLostCaptureResponse } from './lossy.ts';
 
 export type Variant = 'buggy' | 'fixed';
-export type ShopFactory = (api: PayPalApi, store: Store) => ShopHandlers;
+export type ShopFactory = (api: PayPalApi, store: Store, facts?: FakePayPal) => ShopHandlers;
 export type EventOrder = 'webhook-first' | 'agent-first' | 'interleaved';
 export const EVENT_ORDERS: EventOrder[] = ['webhook-first', 'agent-first', 'interleaved'];
 
@@ -41,7 +41,7 @@ function harness(variant: Variant | ShopFactory, seed: number, lostCaptures = 0)
   const store = new Store();
   const api = lostCaptures > 0 ? withLostCaptureResponse(pp, lostCaptures, () => log.push('network: capture response lost')) : pp;
   const { name, factory } = factoryFor(variant);
-  const shop = factory(api, store);
+  const shop = factory(api, store, pp);
   net.attach({
     ...shop,
     async onWebhook(d: SignedDelivery) {
@@ -60,7 +60,8 @@ function harness(variant: Variant | ShopFactory, seed: number, lostCaptures = 0)
   async function finish(scenario: RunRecord['scenario'], params: Record<string, unknown>): Promise<RunRecord> {
     await net.flush();
     await pp.settle();
-    return { scenario, variant: name, seed, params, paypal: pp.facts(), shop: store.snapshot(), log, outcomes };
+    const shopState = shop.snapshot ? await shop.snapshot() : store.snapshot();
+    return { scenario, variant: name, seed, params, paypal: pp.facts(), shop: shopState, log, outcomes };
   }
   return { pp, net, shop, log, agent, finish };
 }

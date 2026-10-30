@@ -17,7 +17,8 @@ export type EventType = 'CHECKOUT.ORDER.APPROVED' | 'PAYMENT.CAPTURE.COMPLETED';
 export type WebhookEvent = {
   id: string;
   event_type: EventType;
-  resource: { order_id: string; capture_id?: string };
+  // order_id/capture_id are our shorthand; the remaining fields mirror PayPal's real payloads.
+  resource: { order_id: string; capture_id?: string; id?: string; status?: string; amount?: { value: string; currency_code: string }; supplementary_data?: { related_ids: { order_id: string } } };
 };
 
 export type SignedDelivery = { headers: Record<string, string>; body: string };
