@@ -72,6 +72,8 @@ Result on 2026-10-30, seeds 1 to 3 (`node --import ./register.mjs run.ts 1,2,3`)
 
 Why A1 fails: the return page and the `CHECKOUT.ORDER.APPROVED` webhook both see the order as `pending` and both call `finalizePaypalOrder`. PayPal correctly returns one capture for the shared `PayPal-Request-Id`, and the transaction row is deduplicated by a unique constraint, but `recordPaypalPayment` decides "first finalization" with a SELECT inside a READ COMMITTED transaction, so each concurrent caller sees no row and each emits `order_placed`. Sequential paths (A2, A3) deduplicate correctly. In evershop core, `order_placed` sends the order confirmation email, so the visible effect is duplicate confirmation emails, plus duplicate work in any plugin that subscribes to the event. No double charge. This finding has not been reported to evershop yet.
 
+AI diagnosis on evershop (`node diagnose.ts` in `external/evershop`, 2026-10-30, `anthropic/claude-opus-5.5`, $0.12): the model named the unlocked existence check in `recordPaypalPayment` (`finalizePaypalOrder.ts:68`) as the cause and proposed an 8-line patch that locks the order row (`SELECT ... FOR UPDATE`) inside the transaction before the check. The harness reran every scenario on a patched copy, in a permission-restricted child process, on seeds 1 to 3: 9 of 11 runs FAIL before, 0 of 33 FAIL and 0 UNKNOWN after. Only `finalizePaypalOrder.ts` was replaced, so webhook signature verification is evershop's own code in both runs. The patch is not applied anywhere; it is a proposal.
+
 ## How a patch is proven
 
 `diagnose` sends the AI the failing verdicts, the event log, PayPal facts, shop rows and the handler source, with secrets redacted. The AI returns findings and a corrected file. The harness, not the AI, then:
