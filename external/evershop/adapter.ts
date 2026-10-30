@@ -4,10 +4,13 @@
 //   grant       = one "order_placed" row in evershop's event table (fulfillment trigger)
 
 import { randomUUID } from 'node:crypto';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import type { PayPalApi } from '../../src/paypal/types.ts';
 import type { Grant, OrderStatus, ShopHandlers, ShopOrder } from '../../src/shop/types.ts';
 
-const V = new URL('./vendor/src/', import.meta.url).href;
+// PT_EVERSHOP_SRC points at a patched copy of the sources during a proof run.
+const V = process.env.PT_EVERSHOP_SRC ? pathToFileURL(resolve(process.env.PT_EVERSHOP_SRC) + '/').href : new URL('./vendor/src/', import.meta.url).href;
 const { pool } = await import(V + 'lib/postgres/connection.js');
 const returnPage = (await import(V + 'modules/paypal/pages/frontStore/paypalReturn/index.ts')).default;
 const webhookRoute = (await import(V + 'modules/paypal/api/paypalWebhook/[bodyRaw]webhook.ts')).default;

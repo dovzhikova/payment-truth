@@ -3,3 +3,5 @@ node_modules/
 .pg/
 package-lock.json
 results.json
+vendor-patched/
+results-*.json

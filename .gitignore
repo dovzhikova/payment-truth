@@ -7,3 +7,5 @@ runs/spike-*.json
 runs-spike.log
 src/shop/.cand-*.ts
 runs/patches/
+runs/patches-evershop/
+runs/report/
