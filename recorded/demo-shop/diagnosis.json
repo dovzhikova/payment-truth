@@ -1,0 +1,26 @@
+{
+  "model": "anthropic/claude-opus-5.5",
+  "costUsd": 0.080096,
+  "findings": [
+    {
+      "invariant": "I3",
+      "line": 14,
+      "cause": "The existence check on line 12 is separated from the insert by an awaited getOrder call, so concurrent complete/webhook calls all see no order and each insert their own shop order."
+    },
+    {
+      "invariant": "I4",
+      "line": 21,
+      "cause": "Any capture exception (a lost response or an already-captured error from a parallel attempt) marks the order FAILED without asking PayPal, and it can overwrite an order another caller already marked PAID."
+    },
+    {
+      "invariant": "I4",
+      "line": 16,
+      "cause": "Each call captures with a fresh random request id and never checks whether PayPal already completed the order, so parallel or retried calls attempt multiple captures."
+    },
+    {
+      "invariant": "I2",
+      "line": 44,
+      "cause": "PAYMENT.CAPTURE.COMPLETED inserts a grant on every delivery, including resends, with no dedupe per PayPal order and SKU and no check that PayPal reports the capture as COMPLETED."
+    }
+  ]
+}

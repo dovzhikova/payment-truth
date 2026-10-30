@@ -12,6 +12,7 @@ import type { Finding } from '../ai/diagnose.ts';
 import type { Verdict } from '../invariants/check.ts';
 import type { RunRecord } from '../traffic/scenarios.ts';
 import { regressionTestSource } from './regression.ts';
+import type { EvershopData } from './evershop.ts';
 
 export type Worst = 'PASS' | 'FAIL' | 'UNKNOWN';
 export type RowSide = { worst: Worst; verdicts: Verdict[]; paypal?: RunRecord['paypal']; shop?: RunRecord['shop']; log?: string[] };
@@ -27,6 +28,7 @@ export type ReportData = {
   diagnosis: { model: string; costUsd?: number; findings: Finding[] };
   diff: string;
   regressionTest: string;
+  evershop?: EvershopData;
 };
 
 const LABELS: Record<string, string> = { A1: 'Race with the approval webhook', A2: 'Retry after a lost response', A3: 'Duplicate capture webhook' };
@@ -54,6 +56,7 @@ export async function buildReportData(input: {
   diagnosis: { model: string; costUsd?: number; findings: Finding[] };
   recordedAt: string;
   seed?: number;
+  evershop?: EvershopData;
 }): Promise<ReportData> {
   const seed = input.seed ?? 1;
   const seeds = [1, 2, 3];
@@ -84,5 +87,6 @@ export async function buildReportData(input: {
     diagnosis: input.diagnosis,
     diff: diffAgainstBuggy(input.candidateSource),
     regressionTest: regressionTestSource('./src/shop/buggy.ts'),
+    evershop: input.evershop,
   };
 }

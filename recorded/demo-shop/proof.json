@@ -1,0 +1,988 @@
+{
+  "proven": true,
+  "reasons": [],
+  "before": {
+    "fail": 28,
+    "runs": 33
+  },
+  "after": {
+    "fail": 0,
+    "unknown": 0,
+    "runs": 33
+  },
+  "forgedRejected": true,
+  "afterRuns": [
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "webhook-first"
+      },
+      "seed": 1,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "webhook-first"
+      },
+      "seed": 1,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "webhook-first"
+      },
+      "seed": 1,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "agent-first"
+      },
+      "seed": 1,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "agent-first"
+      },
+      "seed": 1,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "agent-first"
+      },
+      "seed": 1,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "interleaved"
+      },
+      "seed": 1,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "interleaved"
+      },
+      "seed": 1,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "interleaved"
+      },
+      "seed": 1,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A2",
+      "params": {},
+      "seed": 1,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A3",
+      "params": {},
+      "seed": 1,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "webhook-first"
+      },
+      "seed": 2,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "webhook-first"
+      },
+      "seed": 2,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "webhook-first"
+      },
+      "seed": 2,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "agent-first"
+      },
+      "seed": 2,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "agent-first"
+      },
+      "seed": 2,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "agent-first"
+      },
+      "seed": 2,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "interleaved"
+      },
+      "seed": 2,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "interleaved"
+      },
+      "seed": 2,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "interleaved"
+      },
+      "seed": 2,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A2",
+      "params": {},
+      "seed": 2,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A3",
+      "params": {},
+      "seed": 2,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "webhook-first"
+      },
+      "seed": 3,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "webhook-first"
+      },
+      "seed": 3,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "webhook-first"
+      },
+      "seed": 3,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "agent-first"
+      },
+      "seed": 3,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "agent-first"
+      },
+      "seed": 3,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "agent-first"
+      },
+      "seed": 3,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "interleaved"
+      },
+      "seed": 3,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "interleaved"
+      },
+      "seed": 3,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "interleaved"
+      },
+      "seed": 3,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A2",
+      "params": {},
+      "seed": 3,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    },
+    {
+      "scenario": "A3",
+      "params": {},
+      "seed": 3,
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ]
+    }
+  ]
+}

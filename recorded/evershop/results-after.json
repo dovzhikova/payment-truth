@@ -1,0 +1,3302 @@
+{
+  "commit": "f33f72cd02bc20fd5d9b2b111bdda46b79b77200",
+  "out": [
+    {
+      "seed": 1,
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "webhook-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#0: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 1,
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "webhook-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#1: complete -> PAID",
+        "agent#0: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 1,
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "webhook-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#2: complete -> PAID",
+        "agent#1: complete -> PAID",
+        "agent#0: complete -> PAID",
+        "agent#3: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 1,
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "agent-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#0: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 1,
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "agent-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#1: complete -> PAID",
+        "agent#0: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 1,
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "agent-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#3: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#2: complete -> PAID",
+        "agent#1: complete -> PAID",
+        "agent#0: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 1,
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "interleaved"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#0: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 1,
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "interleaved"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#1: complete -> PAID",
+        "agent#0: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 1,
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "interleaved"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#3: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#1: complete -> PAID",
+        "agent#0: complete -> PAID",
+        "agent#2: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 1,
+      "scenario": "A2",
+      "params": {},
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "network: capture response lost",
+        "agent: complete -> PENDING",
+        "agent retry: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 1,
+      "scenario": "A3",
+      "params": {},
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200",
+        "paypal: resend WH-0004",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "webhook-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#0: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "webhook-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#0: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#1: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "webhook-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#0: complete -> PAID",
+        "agent#1: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#2: complete -> PAID",
+        "agent#3: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "agent-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#0: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "agent-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#0: complete -> PAID",
+        "agent#1: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "agent-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#0: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#3: complete -> PAID",
+        "agent#1: complete -> PAID",
+        "agent#2: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "interleaved"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#0: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "interleaved"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#1: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#0: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "interleaved"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#0: complete -> PAID",
+        "agent#2: complete -> PAID",
+        "agent#1: complete -> PAID",
+        "agent#3: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "A2",
+      "params": {},
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "network: capture response lost",
+        "agent: complete -> PENDING",
+        "agent retry: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "A3",
+      "params": {},
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200",
+        "paypal: resend WH-0004",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "webhook-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#0: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "webhook-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#0: complete -> PAID",
+        "agent#1: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "webhook-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#3: complete -> PAID",
+        "agent#2: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#0: complete -> PAID",
+        "agent#1: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "agent-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#0: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "agent-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#0: complete -> PAID",
+        "agent#1: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "agent-first"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#0: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#1: complete -> PAID",
+        "agent#2: complete -> PAID",
+        "agent#3: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "A1",
+      "params": {
+        "n": 1,
+        "order": "interleaved"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#0: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "A1",
+      "params": {
+        "n": 2,
+        "order": "interleaved"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#0: complete -> PAID",
+        "agent#1: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "A1",
+      "params": {
+        "n": 4,
+        "order": "interleaved"
+      },
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent#2: complete -> PAID",
+        "agent#0: complete -> PAID",
+        "agent#3: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "agent#1: complete -> PAID",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "A2",
+      "params": {},
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "network: capture response lost",
+        "agent: complete -> PENDING",
+        "agent retry: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "A3",
+      "params": {},
+      "verdicts": [
+        {
+          "id": "I1",
+          "result": "PASS",
+          "detail": "1 grant(s), each backed by a COMPLETED capture"
+        },
+        {
+          "id": "I2",
+          "result": "PASS",
+          "detail": "at most one grant per order and SKU"
+        },
+        {
+          "id": "I3",
+          "result": "PASS",
+          "detail": "one shop order per PayPal order"
+        },
+        {
+          "id": "I4",
+          "result": "PASS",
+          "detail": "shop status agrees with PayPal"
+        }
+      ],
+      "shop": {
+        "orders": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "status": "PAID"
+          }
+        ],
+        "grants": [
+          {
+            "id": 1,
+            "paypal_order_id": "ORD-0001",
+            "sku": "SKU-1",
+            "capture_id": "CAP-0003"
+          }
+        ]
+      },
+      "paypal": {
+        "orders": [
+          {
+            "id": "ORD-0001",
+            "status": "COMPLETED",
+            "amount": "1.00",
+            "captures": [
+              {
+                "id": "CAP-0003",
+                "status": "COMPLETED",
+                "amount": "1.00"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "id": "WH-0002",
+            "event_type": "CHECKOUT.ORDER.APPROVED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "id": "ORD-0001",
+              "status": "APPROVED"
+            }
+          },
+          {
+            "id": "WH-0004",
+            "event_type": "PAYMENT.CAPTURE.COMPLETED",
+            "resource": {
+              "order_id": "ORD-0001",
+              "capture_id": "CAP-0003",
+              "id": "CAP-0003",
+              "status": "COMPLETED",
+              "amount": {
+                "value": "1.00",
+                "currency_code": "USD"
+              },
+              "supplementary_data": {
+                "related_ids": {
+                  "order_id": "ORD-0001"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "log": [
+        "agent: complete -> PAID",
+        "webhook CHECKOUT.ORDER.APPROVED -> 200",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200",
+        "paypal: resend WH-0004",
+        "webhook PAYMENT.CAPTURE.COMPLETED -> 200"
+      ]
+    }
+  ]
+}

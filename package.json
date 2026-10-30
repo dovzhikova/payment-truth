@@ -4,9 +4,12 @@
   "description": "Checks whether a shop's PayPal backend survives AI-buyer-agent traffic, and proves every fix.",
   "type": "module",
   "license": "MIT",
-  "engines": { "node": ">=24" },
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "test": "node --test --test-reporter=spec 'test/**/*.test.ts'",
-    "check": "node src/cli.ts check"
+    "check": "node src/cli.ts check",
+    "build:replay": "node src/cli.ts report --patch recorded/demo-shop --evershop recorded/evershop --out public/index.html"
   }
 }

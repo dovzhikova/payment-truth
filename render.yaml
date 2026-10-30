@@ -1,0 +1,11 @@
+# Replay mode for judges: a static page built from recorded runs. The build
+# re-proves the recorded demo-shop patch offline; no keys, no live PayPal.
+services:
+  - type: web
+    name: payment-truth
+    runtime: static
+    buildCommand: npm run build:replay
+    staticPublishPath: ./public
+    envVars:
+      - key: NODE_VERSION
+        value: "24"

@@ -1,0 +1,19 @@
+diff --git a/vendor/src/modules/paypal/services/finalizePaypalOrder.ts b/vendor-patched/src/modules/paypal/services/finalizePaypalOrder.ts
+index 9c1d08f..f010e03 100644
+--- a/vendor/src/modules/paypal/services/finalizePaypalOrder.ts
++++ b/vendor-patched/src/modules/paypal/services/finalizePaypalOrder.ts
+@@ -65,6 +65,14 @@ export async function recordPaypalPayment(
+   await startTransaction(connection);
+   let firstFinalization = false;
+   try {
++    // Serialize every finalization of this order: lock the order row before
++    // the existence check so concurrent callers (return page, webhooks, cron)
++    // cannot all observe "no transaction yet" and each emit order_placed.
++    // Under READ COMMITTED the check below then sees the winner's commit.
++    await (connection as any).query(
++      'SELECT order_id FROM "order" WHERE order_id = $1 FOR UPDATE',
++      [order.order_id]
++    );
+     const existing = await select()
+       .from('payment_transaction')
+       .where('transaction_id', '=', payment.id)

@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { buildReportData } from '../src/report/data.ts';
 import { renderReport } from '../src/report/html.ts';
 import { regressionTestSource } from '../src/report/regression.ts';
+import { loadEvershop } from '../src/report/evershop.ts';
 
 const fixedSource = readFileSync('src/shop/fixed.ts', 'utf8');
 const diagnosis = { model: 'stub-model', costUsd: 0.08, findings: [{ invariant: 'I2', line: 44, cause: 'grant per delivery' }] };
@@ -46,4 +47,24 @@ test('exported regression test asserts no FAIL across every scenario', () => {
   assert.ok(src.includes("import { runMatrix }"));
   assert.ok(src.includes('./src/shop/fixed.ts'));
   assert.ok(src.includes("v.result !== 'PASS'"));
+});
+
+test('the recorded evershop result is summarised from its saved verdicts', () => {
+  const e = loadEvershop('recorded/evershop');
+  assert.equal(e.commit, 'f33f72cd02bc20fd5d9b2b111bdda46b79b77200');
+  assert.deepEqual([e.before.fail, e.before.runs], [27, 33]);
+  assert.deepEqual([e.after.fail, e.after.unknown, e.after.runs], [0, 0, 33]);
+  assert.equal(e.proven, true);
+  const n4 = e.before.variants.find((v) => v.key === 'A1 webhook-first N=4');
+  assert.deepEqual(n4?.orderPlaced, [5]);
+  assert.ok(e.fileUrl.endsWith('finalizePaypalOrder.ts#L68'));
+  assert.ok(e.diff.includes('FOR UPDATE') && !e.diff.includes('vendor-patched'));
+});
+
+test('the report shows the evershop panel only when given recorded evershop data', async () => {
+  const data = await buildReportData({ candidateSource: fixedSource, diagnosis, recordedAt: '2026-10-30T11:38:33Z', evershop: loadEvershop('recorded/evershop') });
+  const html = renderReport(data);
+  assert.ok(html.includes('id="evershop"') && html.includes('issues/1180'));
+  assert.ok(!renderReport({ ...data, evershop: undefined }).includes('id="evershop"'));
+  assert.ok(!html.includes('—'), 'no em dashes');
 });

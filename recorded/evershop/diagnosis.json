@@ -1,0 +1,12 @@
+{
+  "evershopCommit": "f33f72cd02bc20fd5d9b2b111bdda46b79b77200",
+  "model": "anthropic/claude-opus-5.5",
+  "costUsd": 0.119544,
+  "findings": [
+    {
+      "invariant": "I2",
+      "line": 68,
+      "cause": "recordPaypalPayment checks for an existing payment_transaction with a plain SELECT and then upserts it, with no lock in between, so under READ COMMITTED concurrent finalizations (return page, CHECKOUT.ORDER.APPROVED webhook, PAYMENT.CAPTURE.COMPLETED webhook) all see no row, all set firstFinalization=true and each emits order_placed."
+    }
+  ]
+}

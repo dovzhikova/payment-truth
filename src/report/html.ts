@@ -69,8 +69,16 @@ button { font: 600 12px var(--sans); color: var(--accent); background: var(--acc
 button:focus-visible, tr.run:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .muted { color: var(--muted); }
 footer { padding: 6px 24px 18px; color: var(--muted); font-size: 12px; }
-@media (max-width: 1180px) { main { grid-template-columns: 1fr; } }
-@media (max-width: 640px) { header, main, footer { padding-left: 16px; padding-right: 16px; } .cols, .facts { grid-template-columns: 1fr; } }
+.ext { padding: 0 24px 8px; }
+.ext .panel { display: grid; grid-template-columns: 360px minmax(0, 1fr) minmax(320px, 400px); gap: 16px; }
+.ext .panel > h2 { grid-column: 1 / -1; margin-bottom: 0; }
+.ext .lede { margin: 0 0 10px; font-size: 13px; }
+.ext td { font-size: 12.5px; }
+.ext td.num { font-family: var(--mono); text-align: right; }
+a { color: var(--accent); }
+footer a { color: inherit; }
+@media (max-width: 1180px) { main, .ext .panel { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { header, main, .ext, footer { padding-left: 16px; padding-right: 16px; } .cols, .facts { grid-template-columns: 1fr; } }
 `;
 
 const JS = `
@@ -154,12 +162,40 @@ function aiPanel() {
   ];
 }
 
+function evershopPanel() {
+  const e = data.evershop;
+  const link = (href, text) => h('a', { href, target: '_blank', rel: 'noopener' }, text);
+  const rows = e.before.variants.map((v) => {
+    const a1 = v.key.startsWith('A1 ');
+    const name = a1 ? 'race' : v.key === 'A2' ? 'retry after lost response' : 'duplicate webhook';
+    const label = h('td', { class: 'name' }, h('b', {}, v.key.slice(0, 2)), ' ' + name, a1 ? h('small', {}, v.key.slice(3).replace(' N=', ' · N=')) : null);
+    return h('tr', {}, label, h('td', {}, pill(v.fail ? 'FAIL' : 'PASS')), h('td', { class: 'num' }, v.orderPlaced.join(', ')));
+  });
+  const f = e.diagnosis.findings[0];
+  const cost = e.diagnosis.costUsd != null ? ', $' + Number(e.diagnosis.costUsd).toFixed(3) : '';
+  const diff = e.diff.split('\\n').map((l) => h('span', { class: l.startsWith('+') && !l.startsWith('+++') ? 'a' : l.startsWith('-') && !l.startsWith('---') ? 'd' : l.startsWith('@@') ? 'h' : '' }, l || ' '));
+  return [
+    h('h2', {}, 'Real open-source code: evershop, recorded ' + e.recordedAt.slice(0, 10)),
+    h('div', {},
+      h('p', { class: 'lede' }, "evershop's own PayPal handlers at ", h('code', {}, e.commit.slice(0, 7)), ' against Postgres 15 and the fake PayPal; only logging, config, plugin hooks and the HTTP client are stubbed. Seeds 1 to 3.'),
+      h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'Scenario'), h('th', {}, 'Before'), h('th', {}, 'order_placed events'))), h('tbody', {}, rows)),
+      h('div', { class: 'summary' }, h('span', {}, e.before.fail + ' of ' + e.before.runs + ' runs fail before'), h('span', {}, (e.after.runs - e.after.fail - e.after.unknown) + ' of ' + e.after.runs + ' pass after'))),
+    h('div', {},
+      h('div', { class: 'proof' }, h('span', { class: 'badge ' + (e.proven ? 'PASS' : 'FAIL') }, e.proven ? 'PROVEN' : 'NOT PROVEN'), h('span', { class: 'muted' }, 'One payment, one capture, but one confirmation email per concurrent caller. No double charge.')),
+      f ? h('div', { class: 'finding' }, h('div', { class: 'where' }, f.invariant + '  ', link(e.fileUrl, e.file + ':' + f.line)), h('div', {}, f.cause)) : null,
+      h('p', { class: 'muted' }, 'Model ' + e.diagnosis.model + cost),
+      h('p', {}, 'Reported upstream: ', link(e.issueUrl, 'evershop issue #' + e.issueUrl.split('/').pop()))),
+    h('pre', { class: 'diff', 'aria-label': 'evershop patch diff' }, diff),
+  ];
+}
+
 function select(i) { selected = i; render(); document.querySelectorAll('tr.run')[i]?.focus(); }
 function render() {
   const nodes = (list) => list.flat(2).filter((n) => n != null);
   document.getElementById('scenarios').replaceChildren(h('h2', {}, 'Agent traffic scenarios'), ...nodes(scenarioTable()));
   document.getElementById('detail').replaceChildren(...nodes(detail()));
   document.getElementById('ai').replaceChildren(...nodes(aiPanel()));
+  if (data.evershop) document.getElementById('evershop').replaceChildren(...nodes(evershopPanel()));
 }
 render();
 `;
@@ -186,7 +222,8 @@ export function renderReport(data: ReportData): string {
   <section class="panel" id="detail" aria-label="Selected run"></section>
   <section class="panel" id="ai" aria-label="AI diagnosis"></section>
 </main>
-<footer>Agent behaviour in these scenarios is our model of how a buying agent acts, not a measurement of a specific agent. Verdicts come from deterministic invariants; missing data is UNKNOWN, never PASS.</footer>
+${data.evershop ? '<div class="ext"><section class="panel" id="evershop" aria-label="evershop result"></section></div>' : ''}
+<footer>Agent behaviour in these scenarios is our model of how a buying agent acts, not a measurement of a specific agent. Verdicts come from deterministic invariants; missing data is UNKNOWN, never PASS. Source: <a href="https://github.com/dovzhikova/payment-truth">github.com/dovzhikova/payment-truth</a> (MIT).</footer>
 <script type="application/json" id="data">${json}</script>
 <script>${JS}</script>
 </body>

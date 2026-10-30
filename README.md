@@ -74,6 +74,10 @@ Why A1 fails: the return page and the `CHECKOUT.ORDER.APPROVED` webhook both see
 
 AI diagnosis on evershop (`node diagnose.ts` in `external/evershop`, 2026-10-30, `anthropic/claude-opus-5.5`, $0.12): the model named the unlocked existence check in `recordPaypalPayment` (`finalizePaypalOrder.ts:68`) as the cause and proposed an 8-line patch that locks the order row (`SELECT ... FOR UPDATE`) inside the transaction before the check. The harness reran every scenario on a patched copy, in a permission-restricted child process, on seeds 1 to 3: 9 of 11 runs FAIL before, 0 of 33 FAIL and 0 UNKNOWN after. Only `finalizePaypalOrder.ts` was replaced, so webhook signature verification is evershop's own code in both runs. The patch is not applied anywhere; it is a proposal.
 
+## Replay mode (hosted, no keys)
+
+`npm run build:replay` writes `public/index.html` from the runs recorded on 2026-10-30 in `recorded/`: the demo shop's hint-free AI diagnosis (4 findings for 5 planted defects; the patch clears all 33 runs) and the evershop result. The build re-proves the demo-shop patch offline on seeds 1 to 3, so the PROVEN badge is recomputed, not copied. The evershop panel is shown as recorded, because running evershop needs its code and Postgres. `render.yaml` deploys this page as a Render static site; no keys or live PayPal calls are involved.
+
 ## How a patch is proven
 
 `diagnose` sends the AI the failing verdicts, the event log, PayPal facts, shop rows and the handler source, with secrets redacted. The AI returns findings and a corrected file. The harness, not the AI, then:
