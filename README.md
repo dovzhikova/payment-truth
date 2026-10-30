@@ -8,19 +8,19 @@ Payment Truth drives a shop's PayPal backend with agent-shaped traffic (retries 
 
 | Part | State |
 | --- | --- |
-| Offline core: fake PayPal, demo shop (buggy and fixed), scenarios A1 to A3, invariants I1 to I4, CLI | Done, 28 tests passing |
-| Live PayPal sandbox client, real signed webhooks, webhook resend | Not started; needs sandbox credentials |
+| Offline core: fake PayPal, demo shop (buggy and fixed), scenarios A1 to A3, invariants I1 to I4, CLI | Done |
+| Live PayPal sandbox client, real signed webhooks, webhook resend | Client done. Spike on 2026-10-30: real approval and capture webhooks received over a tunnel; capture webhook signature verified; same PayPal-Request-Id returns the same capture; a different one is rejected with ORDER_ALREADY_CAPTURED; webhook resend redelivers the same event id with a valid signature. Approval webhook signature not yet checked. |
 | AI diagnosis and proven patch loop | Not started |
 | One-screen report, replay mode on Render | Not started |
 
-Everything below runs offline today, against an in-memory PayPal. Nothing here has run against the PayPal sandbox yet.
+The scenario matrix below runs offline against an in-memory PayPal. The live spike (`node src/spike.ts`) runs one real sandbox order end to end; it needs `.env` with sandbox credentials, `cloudflared`, and a person to approve the order as the sandbox buyer.
 
 ## Run it
 
 Requires Node 24 or newer. No dependencies to install.
 
 ```bash
-npm test                                   # 28 tests
+npm test
 node src/cli.ts check                      # buggy and fixed shop, exits 1 if any invariant FAILs
 node src/cli.ts check --variant fixed --seed 3
 node src/cli.ts check --json results.json

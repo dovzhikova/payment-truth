@@ -3,3 +3,5 @@ node_modules/
 .env.*
 runs/private/
 *.log
+runs/spike-*.json
+runs-spike.log

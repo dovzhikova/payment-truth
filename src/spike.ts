@@ -7,13 +7,16 @@
 // delivery's signature. Writes runs/spike-<timestamp>.json without secrets.
 
 import { spawn } from 'node:child_process';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { appendFileSync, mkdirSync, writeFileSync } from 'node:fs';
+import { parseArgs } from 'node:util';
 import { createServer } from 'node:http';
 import { loadEnv, requireEnv } from './config.ts';
 import { SandboxPayPal } from './paypal/sandbox.ts';
 import type { WebhookEvent } from './paypal/types.ts';
 
 const PORT = 8787;
+const { values: args } = parseArgs({ options: { resend: { type: 'string' } } });
+let verifier: SandboxPayPal | undefined;
 const env = { ...loadEnv(), ...process.env } as Record<string, string>;
 requireEnv(env, ['PAYPAL_CLIENT_ID', 'PAYPAL_CLIENT_SECRET']);
 
@@ -50,8 +53,14 @@ function startServer(): Promise<void> {
     req.on('end', () => {
       const headers = Object.fromEntries(Object.entries(req.headers).map(([k, v]) => [k, String(v)]));
       try {
-        deliveries.push({ receivedAt: new Date().toISOString(), headers, body, event: JSON.parse(body) });
-        console.log(`[spike] webhook received: ${JSON.parse(body).event_type}`);
+        const d: Delivery = { receivedAt: new Date().toISOString(), headers, body, event: JSON.parse(body) };
+        deliveries.push(d);
+        appendFileSync('runs/private/deliveries.jsonl', JSON.stringify(d) + '\n');
+        console.log(`[spike] webhook received: ${d.event.event_type} ${d.event.id} tx=${headers['paypal-transmission-id']}`);
+        verifier?.verifyWebhookSignature({ headers, body }).then(
+          (ok) => { d.verified = ok; console.log(`[spike] signature ${ok ? 'VERIFIED' : 'NOT VERIFIED'}: ${d.event.id}`); },
+          (e) => console.log(`[spike] signature check error: ${(e as Error).message}`),
+        );
       } catch {
         console.log('[spike] webhook with unparseable body ignored');
       }
@@ -78,6 +87,29 @@ function startTunnel(): Promise<{ url: string; stop: () => void }> {
   });
 }
 
+async function resendAndWait(pp: SandboxPayPal, eventId: string, before: number): Promise<void> {
+  try {
+    await pp.resendWebhookEvent(eventId);
+    step('resend requested', { eventId });
+  } catch (e) {
+    step('resend failed', { eventId, issue: (e as Error).message });
+    return;
+  }
+  const copies = await waitFor('redelivery of the event', 5 * 60_000, () => {
+    const c = deliveries.filter((d) => d.event.id === eventId);
+    return c.length > before ? c : undefined;
+  });
+  if (copies) {
+    await new Promise((r) => setTimeout(r, 3000)); // let the signature check finish
+    step('resend delivered', {
+      copies: copies.length,
+      sameBody: copies.length > 1 ? copies[0].body === copies.at(-1)!.body : null,
+      sameTransmissionId: copies.length > 1 ? copies[0].headers['paypal-transmission-id'] === copies.at(-1)!.headers['paypal-transmission-id'] : null,
+      verified: copies.map((d) => d.verified),
+    });
+  }
+}
+
 async function main() {
   await startServer();
   const tunnel = await startTunnel();
@@ -92,8 +124,13 @@ async function main() {
   });
   step('webhook registered', { webhookId: hook.id });
   const pp = new SandboxPayPal({ clientId: env.PAYPAL_CLIENT_ID, clientSecret: env.PAYPAL_CLIENT_SECRET, webhookId: hook.id });
+  verifier = pp;
 
   try {
+    if (args.resend) {
+      await resendAndWait(pp, args.resend, 0);
+      return;
+    }
     const order = await pp.createOrder(`spike-create-${Date.now()}`);
     step('order created', { orderId: order.id, status: order.status, approveUrl: order.approveUrl });
     writeFileSync('runs/private/approve-url.txt', `${order.approveUrl}\n`);
@@ -125,22 +162,7 @@ async function main() {
     const capEvent = await waitFor('PAYMENT.CAPTURE.COMPLETED webhook', 5 * 60_000, () =>
       deliveries.find((d) => d.event.event_type === 'PAYMENT.CAPTURE.COMPLETED' && JSON.stringify(d.event).includes(captured.captures[0]?.id ?? '§')),
     );
-    if (capEvent) {
-      const before = deliveries.filter((d) => d.event.id === capEvent.event.id).length;
-      await pp.resendWebhookEvent(capEvent.event.id);
-      step('resend requested', { eventId: capEvent.event.id });
-      const second = await waitFor('second delivery of the capture event', 5 * 60_000, () => {
-        const copies = deliveries.filter((d) => d.event.id === capEvent.event.id);
-        return copies.length > before ? copies : undefined;
-      });
-      if (second) {
-        step('resend delivered', {
-          copies: second.length,
-          sameBody: second[0].body === second.at(-1)!.body,
-          sameTransmissionId: second[0].headers['paypal-transmission-id'] === second.at(-1)!.headers['paypal-transmission-id'],
-        });
-      }
-    }
+    if (capEvent) await resendAndWait(pp, capEvent.event.id, deliveries.filter((d) => d.event.id === capEvent.event.id).length);
 
     for (const d of deliveries) d.verified = await pp.verifyWebhookSignature({ headers: d.headers, body: d.body });
     step('signature verification', { results: deliveries.map((d) => ({ type: d.event.event_type, id: d.event.id, verified: d.verified })) });
@@ -149,8 +171,10 @@ async function main() {
       body: deliveries[0]?.body ?? '{}',
     });
     step('forged signature check', { verified: forged });
-    report.deliveries = deliveries.map((d) => ({ receivedAt: d.receivedAt, event: d.event, verified: d.verified, transmissionId: d.headers['paypal-transmission-id'] }));
+  } catch (e) {
+    step('error', { message: (e as Error).message });
   } finally {
+    report.deliveries = deliveries.map((d) => ({ receivedAt: d.receivedAt, event: d.event, verified: d.verified, transmissionId: d.headers['paypal-transmission-id'] }));
     await pp.request('DELETE', `/v1/notifications/webhooks/${hook.id}`).then(
       () => step('webhook deleted', { webhookId: hook.id }),
       (e) => step('webhook delete failed', { webhookId: hook.id, error: (e as Error).message }),
