@@ -10,13 +10,21 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runMatrix } from '../matrix.ts';
 import type { Verdict } from '../invariants/check.ts';
-import type { Variant } from '../traffic/scenarios.ts';
+import type { RunRecord, Variant } from '../traffic/scenarios.ts';
 
 const SRC = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 // Candidates sit next to the real handlers so their relative imports resolve the same way.
 const CANDIDATES = join(SRC, 'shop');
 
-type WorkerRun = { scenario: string; params: Record<string, unknown>; seed: number; verdicts: Verdict[] };
+export type WorkerRun = {
+  scenario: string;
+  params: Record<string, unknown>;
+  seed: number;
+  verdicts: Verdict[];
+  paypal?: RunRecord['paypal'];
+  shop?: RunRecord['shop'];
+  log?: string[];
+};
 type WorkerOut = { loaded: boolean; error?: string; factory?: string; runs?: WorkerRun[]; forgedRejected?: boolean };
 
 export type Proof = {

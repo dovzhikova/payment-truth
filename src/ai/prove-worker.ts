@@ -35,7 +35,7 @@ async function main() {
   const factory = entry[1] as ShopFactory;
   const runs = [];
   for (const seed of seeds) {
-    for (const r of await runMatrix(factory, seed)) runs.push({ scenario: r.run.scenario, params: r.run.params, seed, verdicts: r.verdicts });
+    for (const r of await runMatrix(factory, seed)) runs.push({ scenario: r.run.scenario, params: r.run.params, seed, verdicts: r.verdicts, paypal: r.run.paypal, shop: r.run.shop, log: r.run.log });
   }
   return { loaded: true, factory: entry[0], runs, forgedRejected: await forgedRejected(factory) };
 }

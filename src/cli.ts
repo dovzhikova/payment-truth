@@ -3,6 +3,8 @@
 // node src/cli.ts diagnose [--model id]
 //   Runs the buggy shop, asks the AI for the cause and a patch, proves the
 //   patch in a sandbox and saves it under runs/patches/. Never edits src/.
+// node src/cli.ts report [--patch runs/patches/<dir>] [--out runs/report/index.html]
+//   Re-proves the latest saved patch locally and writes the one-screen report.
 
 import { spawnSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -10,6 +12,9 @@ import { loadEnv } from './config.ts';
 import { diagnose } from './ai/diagnose.ts';
 import { DEFAULT_MODEL, openRouterModel } from './ai/model.ts';
 import { proveFix } from './ai/prove.ts';
+import { readdirSync } from 'node:fs';
+import { buildReportData } from './report/data.ts';
+import { renderReport } from './report/html.ts';
 import { parseArgs } from 'node:util';
 import { runMatrix } from './matrix.ts';
 import type { MatrixResult } from './matrix.ts';
@@ -54,6 +59,22 @@ async function runDiagnose(modelId: string): Promise<number> {
   return proof.proven ? 0 : 1;
 }
 
+async function runReport(patchDir: string | undefined, out: string): Promise<number> {
+  const dirs = readdirSync('runs/patches', { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name).sort();
+  const dir = patchDir ?? (dirs.length ? `runs/patches/${dirs.at(-1)}` : undefined);
+  if (!dir) {
+    console.error('no saved patch; run `node src/cli.ts diagnose` first');
+    return 2;
+  }
+  const diagnosis = JSON.parse(readFileSync(`${dir}/diagnosis.json`, 'utf8'));
+  const recordedAt = dir.split('/').pop()!.replace(/T(\d\d)-(\d\d)-(\d\d)-\d+Z$/, 'T$1:$2:$3Z');
+  const data = await buildReportData({ candidateSource: readFileSync(`${dir}/candidate.ts`, 'utf8'), diagnosis, recordedAt });
+  mkdirSync(out.split('/').slice(0, -1).join('/') || '.', { recursive: true });
+  writeFileSync(out, renderReport(data));
+  console.log(`report written to ${out} from ${dir} (proven: ${data.proof.proven})`);
+  return 0;
+}
+
 async function main(): Promise<number> {
   const { positionals, values } = parseArgs({
     allowPositionals: true,
@@ -62,8 +83,11 @@ async function main(): Promise<number> {
       seed: { type: 'string', default: '1' },
       json: { type: 'string' },
       model: { type: 'string' },
+      patch: { type: 'string' },
+      out: { type: 'string', default: 'runs/report/index.html' },
     },
   });
+  if (positionals[0] === 'report') return runReport(values.patch, values.out!);
   if (positionals[0] === 'diagnose') return runDiagnose(values.model ?? loadEnv().PT_MODEL ?? DEFAULT_MODEL);
   if (positionals[0] !== 'check') {
     console.error('usage: node src/cli.ts check [--variant buggy|fixed|both] [--seed N] [--json out.json]\n       node src/cli.ts diagnose [--model id]');
