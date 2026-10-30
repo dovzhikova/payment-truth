@@ -1,7 +1,15 @@
 // node src/cli.ts check [--variant buggy|fixed|both] [--seed N] [--json out.json]
-// Exits 1 when any invariant FAILs.
+//   Exits 1 when any invariant FAILs.
+// node src/cli.ts diagnose [--model id]
+//   Runs the buggy shop, asks the AI for the cause and a patch, proves the
+//   patch in a sandbox and saves it under runs/patches/. Never edits src/.
 
-import { writeFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { loadEnv } from './config.ts';
+import { diagnose } from './ai/diagnose.ts';
+import { DEFAULT_MODEL, openRouterModel } from './ai/model.ts';
+import { proveFix } from './ai/prove.ts';
 import { parseArgs } from 'node:util';
 import { runMatrix } from './matrix.ts';
 import type { MatrixResult } from './matrix.ts';
@@ -18,13 +26,47 @@ function describe(r: MatrixResult): string {
   return [head, ...notes].join('\n');
 }
 
+async function runDiagnose(modelId: string): Promise<number> {
+  const env = { ...loadEnv(), ...process.env } as Record<string, string>;
+  if (!env.OPENROUTER_API_KEY) {
+    console.error('OPENROUTER_API_KEY is missing in .env');
+    return 2;
+  }
+  const sourcePath = 'src/shop/buggy.ts';
+  const source = readFileSync(sourcePath, 'utf8');
+  const failing = (await runMatrix('buggy', 1)).filter((r) => r.verdicts.some((v) => v.result === 'FAIL'));
+  console.log(`buggy shop: ${failing.length} failing run(s); asking ${modelId} for the cause`);
+  const secrets = Object.entries(env).filter(([k]) => /KEY|SECRET|TOKEN|PASSWORD/.test(k)).map(([, v]) => v);
+  const { diagnosis, reply } = await diagnose({ failing, sourcePath, source, secrets }, openRouterModel(env.OPENROUTER_API_KEY, modelId));
+  console.log(`model ${reply.model ?? modelId}, cost ${reply.costUsd !== undefined ? '$' + reply.costUsd.toFixed(4) : 'not reported'}`);
+  for (const f of diagnosis.findings) console.log(`  ${f.invariant} at ${sourcePath}:${f.line}: ${f.cause}`);
+  const proof = await proveFix(diagnosis.fixedSource);
+  console.log(`before: ${proof.before.fail}/${proof.before.runs} runs FAIL; after: ${proof.after.fail}/${proof.after.runs} FAIL, ${proof.after.unknown} UNKNOWN; forged webhooks rejected: ${proof.forgedRejected}`);
+  console.log(proof.proven ? 'PROVEN: the patch fixes every failing scenario and keeps signature checks' : `NOT PROVEN: ${proof.reasons.join('; ')}`);
+  const dir = `runs/patches/${new Date().toISOString().replace(/[:.]/g, '-')}`;
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(`${dir}/candidate.ts`, diagnosis.fixedSource);
+  writeFileSync(`${dir}/diagnosis.json`, JSON.stringify({ model: reply.model ?? modelId, costUsd: reply.costUsd, findings: diagnosis.findings }, null, 2));
+  writeFileSync(`${dir}/proof.json`, JSON.stringify(proof, null, 2));
+  const diff = spawnSync('git', ['diff', '--no-index', '--', sourcePath, `${dir}/candidate.ts`], { encoding: 'utf8' });
+  writeFileSync(`${dir}/patch.diff`, diff.stdout);
+  console.log(`saved ${dir}/ (candidate.ts, patch.diff, diagnosis.json, proof.json); src/ was not changed`);
+  return proof.proven ? 0 : 1;
+}
+
 async function main(): Promise<number> {
   const { positionals, values } = parseArgs({
     allowPositionals: true,
-    options: { variant: { type: 'string', default: 'both' }, seed: { type: 'string', default: '1' }, json: { type: 'string' } },
+    options: {
+      variant: { type: 'string', default: 'both' },
+      seed: { type: 'string', default: '1' },
+      json: { type: 'string' },
+      model: { type: 'string' },
+    },
   });
+  if (positionals[0] === 'diagnose') return runDiagnose(values.model ?? loadEnv().PT_MODEL ?? DEFAULT_MODEL);
   if (positionals[0] !== 'check') {
-    console.error('usage: node src/cli.ts check [--variant buggy|fixed|both] [--seed N] [--json out.json]');
+    console.error('usage: node src/cli.ts check [--variant buggy|fixed|both] [--seed N] [--json out.json]\n       node src/cli.ts diagnose [--model id]');
     return 2;
   }
   const variants: Variant[] = values.variant === 'both' ? ['buggy', 'fixed'] : [values.variant as Variant];

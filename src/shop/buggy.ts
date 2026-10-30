@@ -1,16 +1,4 @@
-// A shop backend written the way many real integrations are. It verifies
-// webhook signatures correctly; only the business logic is wrong. Planted
-// defects, each one line of thinking a reviewer could miss:
-//   1. complete(): check-then-insert across an await, so concurrent calls
-//      create duplicate shop orders.
-//   2. complete(): a fresh PayPal-Request-Id per call, so a retry is a new
-//      capture attempt instead of a replay.
-//   3. complete(): any error marks the order FAILED, even when the capture
-//      went through and only the response was lost.
-//   4. Approval webhook: creates and captures the order when it "isn't
-//      there yet", racing the agent's own completion.
-//   5. Capture webhook: grants on every delivery, so a redelivered event
-//      grants twice.
+// Demo shop backend used as the system under test.
 
 import { randomUUID } from 'node:crypto';
 import type { PayPalApi, SignedDelivery, WebhookEvent } from '../paypal/types.ts';
@@ -22,7 +10,7 @@ export function createBuggyShop(api: PayPalApi, store: Store): ShopHandlers {
     const sku = store.cartSku(paypalOrderId);
     if (!sku) return 'FAILED';
     const existing = store.findOrder(paypalOrderId);
-    await api.getOrder(paypalOrderId); // load the order to show the buyer a summary
+    await api.getOrder(paypalOrderId);
     if (!existing) store.insertOrder(paypalOrderId, sku, 'PENDING');
     try {
       const result = await api.captureOrder(paypalOrderId, randomUUID());

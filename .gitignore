@@ -5,3 +5,5 @@ runs/private/
 *.log
 runs/spike-*.json
 runs-spike.log
+src/shop/.cand-*.ts
+runs/patches/
