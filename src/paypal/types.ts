@@ -1,13 +1,15 @@
 // Shapes shared by the fake and the sandbox PayPal clients. Kept to the
 // fields the invariants need; the sandbox client maps real responses onto them.
 
-export type Capture = { id: string; status: 'COMPLETED'; amount: '1.00' };
+export type Capture = { id: string; status: string; amount: string };
 
 export type PayPalOrder = {
   id: string;
-  status: 'CREATED' | 'APPROVED' | 'COMPLETED';
-  amount: '1.00';
+  // The sandbox can also report SAVED, VOIDED or PAYER_ACTION_REQUIRED.
+  status: 'CREATED' | 'APPROVED' | 'COMPLETED' | (string & {});
+  amount: string;
   captures: Capture[];
+  approveUrl?: string;
 };
 
 export type EventType = 'CHECKOUT.ORDER.APPROVED' | 'PAYMENT.CAPTURE.COMPLETED';
