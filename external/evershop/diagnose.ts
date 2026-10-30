@@ -26,6 +26,7 @@ function runScenarios(label: string, srcDir: string, seeds: string, resultsFile:
     `--allow-fs-read=${resolve('../../src')}`,
     '--allow-fs-read=/tmp',
     `--allow-fs-write=${resultsFile}`,
+    '--allow-worker', // module.register runs loader hooks in a worker; workers inherit these limits
     '--import', './register.mjs', 'run.ts', seeds,
   ];
   const r = spawnSync(process.execPath, args, { env: { PATH: '/usr/bin:/bin', PT_EVERSHOP_SRC: srcDir, PT_RESULTS: resultsFile }, encoding: 'utf8', timeout: 300_000 });
