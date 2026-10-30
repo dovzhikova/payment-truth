@@ -58,6 +58,20 @@ src/matrix.ts    every scenario the MVP checks
 src/cli.ts       command line
 ```
 
+## Run against real open-source code: evershop
+
+[evershop](https://github.com/evershopcommerce/evershop) (open-source e-commerce, GPL-3.0) at commit `f33f72c`. `external/evershop/setup.sh` fetches its PayPal files at that commit (never committed here), installs its query builder and starts a throwaway Postgres 15. Its return-page handler, webhook route, `finalizePaypalOrder`, `updatePaymentStatus`, `addOrderActivityLog` and `emit` run unmodified; our shims replace only logging, config, plugin hooks, type-only modules and the HTTP client (served by the fake PayPal). Mapping: shop order = evershop `order` row; grant = one `order_placed` row in evershop's `event` table.
+
+Result on 2026-10-30, seeds 1 to 3 (`node --import ./register.mjs run.ts 1,2,3`):
+
+| Scenario | evershop |
+| --- | --- |
+| A1 race (9 variants) | I2 FAIL in every run: `order_placed` is emitted N+1 times for one payment (2, 3 or 5) |
+| A2 retry after lost response | PASS |
+| A3 duplicate webhook | PASS |
+
+Why A1 fails: the return page and the `CHECKOUT.ORDER.APPROVED` webhook both see the order as `pending` and both call `finalizePaypalOrder`. PayPal correctly returns one capture for the shared `PayPal-Request-Id`, and the transaction row is deduplicated by a unique constraint, but `recordPaypalPayment` decides "first finalization" with a SELECT inside a READ COMMITTED transaction, so each concurrent caller sees no row and each emits `order_placed`. Sequential paths (A2, A3) deduplicate correctly. In evershop core, `order_placed` sends the order confirmation email, so the visible effect is duplicate confirmation emails, plus duplicate work in any plugin that subscribes to the event. No double charge. This finding has not been reported to evershop yet.
+
 ## How a patch is proven
 
 `diagnose` sends the AI the failing verdicts, the event log, PayPal facts, shop rows and the handler source, with secrets redacted. The AI returns findings and a corrected file. The harness, not the AI, then:
