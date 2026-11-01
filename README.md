@@ -2,6 +2,8 @@
 
 **Live replay (no keys needed):** https://payment-truth.onrender.com
 
+**Demo video (2:21):** https://youtu.be/kVpds8ceWBw
+
 AI buyer agents already pay through PayPal. Is your shop's backend ready for them?
 
 Payment Truth drives a shop's PayPal backend with agent-shaped traffic (retries after a timeout, parallel completions, races with PayPal's webhooks) and checks the result against deterministic invariants. When an invariant fails, an AI finds the cause in the shop's code and proposes a patch; the patch counts as proven only when the same scenario fails before it and passes after it.
