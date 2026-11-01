@@ -1,5 +1,7 @@
 # Payment Truth
 
+**Live replay (no keys needed):** https://payment-truth.onrender.com
+
 AI buyer agents already pay through PayPal. Is your shop's backend ready for them?
 
 Payment Truth drives a shop's PayPal backend with agent-shaped traffic (retries after a timeout, parallel completions, races with PayPal's webhooks) and checks the result against deterministic invariants. When an invariant fails, an AI finds the cause in the shop's code and proposes a patch; the patch counts as proven only when the same scenario fails before it and passes after it.
@@ -76,7 +78,7 @@ AI diagnosis on evershop (`node diagnose.ts` in `external/evershop`, 2026-10-30,
 
 ## Replay mode (hosted, no keys)
 
-`npm run build:replay` writes `public/index.html` from the runs recorded on 2026-10-30 in `recorded/`: the demo shop's hint-free AI diagnosis (4 findings for 5 planted defects; the patch clears all 33 runs) and the evershop result. The build re-proves the demo-shop patch offline on seeds 1 to 3, so the PROVEN badge is recomputed, not copied. The evershop panel is shown as recorded, because running evershop needs its code and Postgres. `render.yaml` deploys this page as a Render static site; no keys or live PayPal calls are involved.
+`npm run build:replay` writes `public/index.html` from the runs recorded on 2026-10-30 in `recorded/`: the demo shop's hint-free AI diagnosis (4 findings for 5 planted defects; the patch clears all 33 runs) and the evershop result. The build re-proves the demo-shop patch offline on seeds 1 to 3, so the PROVEN badge is recomputed, not copied. The evershop panel is shown as recorded, because running evershop needs its code and Postgres. `render.yaml` deploys this page as a Render static site, live at https://payment-truth.onrender.com; no keys or live PayPal calls are involved.
 
 ## How a patch is proven
 
