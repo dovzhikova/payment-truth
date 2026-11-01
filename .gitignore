@@ -11,3 +11,4 @@ runs/patches-evershop/
 runs/report/
 HANDOVER.md
 public/
+!.env.example

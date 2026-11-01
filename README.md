@@ -8,27 +8,40 @@ AI buyer agents already pay through PayPal. Is your shop's backend ready for the
 
 Payment Truth drives a shop's PayPal backend with agent-shaped traffic (retries after a timeout, parallel completions, races with PayPal's webhooks) and checks the result against deterministic invariants. When an invariant fails, an AI finds the cause in the shop's code and proposes a patch; the patch counts as proven only when the same scenario fails before it and passes after it.
 
-## Status (2026-10-30)
+## Status (2026-11-01)
 
 | Part | State |
 | --- | --- |
-| Offline core: fake PayPal, demo shop (buggy and fixed), scenarios A1 to A3, invariants I1 to I4, CLI | Done |
-| Live PayPal sandbox client, real signed webhooks, webhook resend | Client done. Spike on 2026-10-30: real approval and capture webhooks received over a tunnel; capture webhook signature verified; same PayPal-Request-Id returns the same capture; a different one is rejected with ORDER_ALREADY_CAPTURED; webhook resend redelivers the same event id with a valid signature. Approval webhook signature not yet checked. |
+| Offline core: fake PayPal, demo shop (buggy and fixed), scenarios A1 to A3, invariants I1 to I4, CLI | Done, 50 tests |
+| Live PayPal sandbox client, real signed webhooks, webhook resend | Done. Spike on 2026-10-30: real approval and capture webhooks received over a tunnel; capture webhook signature verified; same PayPal-Request-Id returns the same capture; a different one is rejected with ORDER_ALREADY_CAPTURED; webhook resend redelivers the same event id with a valid signature. Approval webhook signature not yet checked. |
 | AI diagnosis and proven patch loop | Done. `node src/cli.ts diagnose` (OpenRouter, default `anthropic/claude-opus-5.5`). First hint-free run on 2026-10-30: 4 findings at the right lines, patch proven (28/33 runs FAIL before, 0/33 after, forged webhooks still rejected), $0.08. The planted defects are listed in `docs/planted-defects.md`, not in the source the AI reads. |
-| One-screen report, replay mode on Render | Not started |
-
-The scenario matrix below runs offline against an in-memory PayPal. The live spike (`node src/spike.ts`) runs one real sandbox order end to end; it needs `.env` with sandbox credentials, `cloudflared`, and a person to approve the order as the sandbox buyer.
+| Real open-source code (evershop) | Done. Race found, AI patch proven, reported as issue #1180, fixed upstream in PR #1193 (see below). |
+| One-screen report and replay mode | Live at https://payment-truth.onrender.com (Render static site from `render.yaml`) |
 
 ## Run it
 
-Requires Node 24 or newer. No dependencies to install.
+Requires Node 24 or newer and git. No dependencies to install.
+
+**Without any keys** (everything a judge needs to see it work):
 
 ```bash
-npm test
-node src/cli.ts check                      # buggy and fixed shop, exits 1 if any invariant FAILs
+git clone https://github.com/dovzhikova/payment-truth.git
+cd payment-truth
+npm test                                   # 50 tests
+node src/cli.ts check                      # buggy and fixed shop under agent traffic; exits 1 if any invariant FAILs
 node src/cli.ts check --variant fixed --seed 3
-node src/cli.ts check --json results.json
+npm run build:replay                       # writes public/index.html from the recorded runs, re-proving the patch offline
 ```
+
+Open `public/index.html` in a browser, or use the hosted copy at https://payment-truth.onrender.com.
+
+**With your own keys** (optional): copy `.env.example` to `.env` and fill it in.
+
+- `OPENROUTER_API_KEY`: `node src/cli.ts diagnose` sends the failing verdicts and the shop source (secrets redacted) to the model, then proves the returned patch locally. About $0.08 per run. `PT_MODEL` picks another OpenRouter model.
+- `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET` (a PayPal sandbox app): `node src/spike.ts` runs one real sandbox order end to end. It also needs `cloudflared` for the webhook tunnel and a person to approve the order as the sandbox buyer. It registers a temporary webhook and deletes it at the end.
+- `node src/cli.ts report` builds the one-screen report from your latest `diagnose` run.
+
+The scenario matrix runs offline against an in-memory PayPal whose behaviour (idempotent capture by PayPal-Request-Id, signed webhooks, resend) was checked against the live sandbox in the spike above.
 
 ## Scenarios
 
